@@ -10,6 +10,9 @@ public class Server {
     public static final double MAXIMUM_LOAD = 100.0d;
     public double currentLoadPercentage;
     public int capacity;
+
+
+
     private List<Vm> vms = new ArrayList<Vm>();
 
     public boolean contains(Vm theVm) {
@@ -39,5 +42,21 @@ public class Server {
         }else {
             return false;
         }
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public double getCurrentLoadPercentage() {
+        return currentLoadPercentage;
+    }
+
+    public void setCurrentLoadPercentage(double currentLoadPercentage) {
+        this.currentLoadPercentage = currentLoadPercentage;
     }
 }
