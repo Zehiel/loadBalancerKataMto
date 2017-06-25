@@ -5,6 +5,7 @@ package edu.iis.mto.serverloadbalancer;
  */
 public class ServerBulder implements Builder<Server>{
     private int capacity;
+    private double initalLoad;
 
     public ServerBulder withCapacity(int capacity) {
         this.capacity = capacity;
@@ -12,7 +13,13 @@ public class ServerBulder implements Builder<Server>{
     }
 
     public Server build() {
-        return new Server(capacity);
+        Server server = new Server(capacity);
+        if(initalLoad > 0){
+            int initialVmSize = (int) (initalLoad /(double)capacity * 100.0d);
+            Vm initalVm = VmBuilder.vm().ofSize(initialVmSize).build();
+            server.addVm(initalVm);
+        }
+        return server;
     }
 
     public static ServerBulder server() {
@@ -21,5 +28,10 @@ public class ServerBulder implements Builder<Server>{
 
     public Server a(ServerBulder serverBulder) {
         return serverBulder.build();
+    }
+
+    public ServerBulder withCurrentLoadOf(double initalLoad) {
+        this.initalLoad = initalLoad;
+        return this;
     }
 }
