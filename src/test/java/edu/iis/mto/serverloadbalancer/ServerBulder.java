@@ -14,4 +14,12 @@ public class ServerBulder {
     public Server build() {
         return new Server();
     }
+
+    public static ServerBulder server() {
+        return new ServerBulder();
+    }
+
+    public Server a(ServerBulder serverBulder) {
+        return serverBulder.build();
+    }
 }
