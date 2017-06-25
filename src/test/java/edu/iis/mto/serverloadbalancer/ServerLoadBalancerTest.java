@@ -82,8 +82,16 @@ public class ServerLoadBalancerTest {
 
 	}
 
+    @Test
+    public void balancingServerWithNotEnoughRoom_shouldNotBeFilledWithTheVm() throws Exception {
 
+        Server theServer = a(server().withCapacity(10).withCurrentLoadOf(90.0d));
+        Vm theVm = a(vm().ofSize(2));
 
+        balancing(aServerListWith(theServer), aVmsListWith(theVm));
+
+        assertThat("Server should not contain theVm",!theServer.contains(theVm));
+    }
 
     private void balancing(Server[] servers, Vm[] vms) {
 		new ServlerLoadBalancer().balance(servers,vms);
