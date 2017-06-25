@@ -12,7 +12,7 @@ public class ServerBulder implements Builder<Server>{
     }
 
     public Server build() {
-        return new Server();
+        return new Server(capacity);
     }
 
     public static ServerBulder server() {
