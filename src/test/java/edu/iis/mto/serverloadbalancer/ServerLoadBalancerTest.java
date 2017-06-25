@@ -26,6 +26,21 @@ public class ServerLoadBalancerTest {
 
     }
 
+    @Test
+    public void balanceServerWithOneSlotCapacity_andOneSlotVm_fillsServerWithTheVm() throws Exception {
+
+	    Server theServer = a(server().withCapacity(1));
+	    Vm theVm = a(vm().ofSize(1));
+
+	    balancing(ServerListWith(theServer),vmListWith(theVm));
+
+	    assertThat(theServer,hasCurrentLoadOf(100.00d));
+	    assertThat("Server should contain the vm",theServer.contains(theVm));
+
+    }
+
+
+
     private void balancing(Server[] servers, Vm[] vms) {
 	    new ServerLoadBalancer().balance(servers,vms);
     }
