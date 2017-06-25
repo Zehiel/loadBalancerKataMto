@@ -14,12 +14,16 @@ public class ServerBulder implements Builder<Server>{
 
     public Server build() {
         Server server = new Server(capacity);
+        addInitalLoad(server);
+        return server;
+    }
+
+    private void addInitalLoad(Server server) {
         if(initalLoad > 0){
-            int initialVmSize = (int) (initalLoad /(double)capacity * 100.0d);
+            int initialVmSize = (int) (initalLoad /(double)capacity * Server.MAXIMUM_LOAD);
             Vm initalVm = VmBuilder.vm().ofSize(initialVmSize).build();
             server.addVm(initalVm);
         }
-        return server;
     }
 
     public static ServerBulder server() {
