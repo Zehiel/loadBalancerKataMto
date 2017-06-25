@@ -70,7 +70,22 @@ public class ServerLoadBalancerTest {
 
     }
 
+    @Test
+    public void vmShouldBeBalancedToServerWithLowerLoad() throws Exception {
 
+	    Server lessLoadedServer = a(server().withCapacity(100).withCurrentLoad(45.0d));
+	    Server moreLoadedServer = a(server().withCapacity(100).withCurrentLoad(50.0d));
+	    Vm theVm = a(vm().ofSize(10));
+
+	    balancing(ServerListWith(lessLoadedServer,moreLoadedServer), vmListWith(theVm));
+
+        assertThat(lessLoadedServer,hasVmCountOf(1));
+        assertThat(moreLoadedServer,hasVmCountOf(0));
+
+        assertThat("Server should contain the vm",lessLoadedServer.contains(theVm));
+        assertThat("Server should not contain the vm",!moreLoadedServer.contains(theVm));
+
+    }
 
     private void balancing(Server[] servers, Vm[] vms) {
 	    new ServerLoadBalancer().balance(servers,vms);
