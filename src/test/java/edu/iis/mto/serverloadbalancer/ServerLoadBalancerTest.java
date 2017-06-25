@@ -40,6 +40,19 @@ public class ServerLoadBalancerTest {
 
     }
 
+    @Test
+    public void balanceServerWithTenSlotCapacity_andOneSlotVm_fillsServerWithTenPercents() throws Exception {
+
+	    Server theServer = a(server().withCapacity(10));
+	    Vm theVm = a(vm().ofSize(1));
+
+	    balancing(ServerListWith(theServer),vmListWith(theVm));
+
+	    assertThat(theServer,hasCurrentLoadOf(10.00d));
+	    assertThat("Server should contain the vm",theServer.contains(theVm));
+
+    }
+
     private void balancing(Server[] servers, Vm[] vms) {
 	    new ServerLoadBalancer().balance(servers,vms);
     }
